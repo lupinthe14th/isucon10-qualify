@@ -21,7 +21,7 @@
   - 遅いのがなくて、一番遅いselectでも実行計画見つつwhere句狙いのindex追加しても効果なし
   - order by句狙いのインデックス追加しても効果なし
   - てか、逆に遅くなった
-- ORDER BY a desc,b asc LIMIT ? OFFSET ? をgoで実装
+- ORDER BY popularity desc,id asc LIMIT ? OFFSET ? をgoで実装
   - ここでmysqlのcpuを使っていると判断して、アプリ側でやって負荷ポイントを変えてみることにした
   - 実装がいけてなくて何度もレスポンス不正のバグを作っていた
   - 何とか実装できてmysqlの負荷は下げられたけど、スコアは下がった。😭
@@ -34,4 +34,6 @@
   - https://discordapp.com/channels/729982721924792320/729982721929117794/754315180799819826
 - mysqlを2つに
   - 2テーブルしかないから思い切って二つに分けるとかやると良いらしい
-- https://discordapp.com/channels/729982721924792320/729982721929117794/754319077719277596
+- ORDER BY popularity desc,id asc LIMIT ? OFFSET ?
+ - https://discordapp.com/channels/729982721924792320/729982721929117794/754319615051432046
+ - https://discordapp.com/channels/729982721924792320/729982721929117794/754319077719277596
