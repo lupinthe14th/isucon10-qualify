@@ -16,7 +16,6 @@
 
 # isucon not use impriment
 webapp/deno/
-webapp/fixture/
 webapp/nodejs/
 webapp/perl/
 webapp/php/
