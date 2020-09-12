@@ -34,6 +34,8 @@
   - https://discordapp.com/channels/729982721924792320/729982721929117794/754315180799819826
 - mysqlを2つに
   - 2テーブルしかないから思い切って二つに分けるとかやると良いらしい
-- ORDER BY popularity desc,id asc LIMIT ? OFFSET ?
- - https://discordapp.com/channels/729982721924792320/729982721929117794/754319615051432046
- - https://discordapp.com/channels/729982721924792320/729982721929117794/754319077719277596
+- ORDER BY popularity desc,id asc LIMIT ? OFFSET ?対策
+  - mysql5系には降順インデックスがないのでmysql8系へupgradeする
+    - https://dev.mysql.com/doc/refman/8.0/en/descending-indexes.html
+    - https://discordapp.com/channels/729982721924792320/729982721929117794/754319615051432046
+  - https://discordapp.com/channels/729982721924792320/729982721929117794/754319077719277596
