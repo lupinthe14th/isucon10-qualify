@@ -13,3 +13,13 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
+
+# isucon not use impriment
+webapp/deno/
+webapp/fixture/
+webapp/nodejs/
+webapp/perl/
+webapp/php/
+webapp/python/
+webapp/ruby/
+webapp/rust/
