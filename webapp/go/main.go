@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -777,7 +778,6 @@ func searchEstates(c echo.Context) error {
 	searchQuery := "SELECT * FROM estate WHERE "
 	countQuery := "SELECT COUNT(*) FROM estate WHERE "
 	searchCondition := strings.Join(conditions, " AND ")
-	limitOffset := " ORDER BY popularity DESC, id ASC LIMIT ? OFFSET ?"
 
 	var res EstateSearchResponse
 	err = db.Get(&res.Count, countQuery+searchCondition, params...)
@@ -785,15 +785,25 @@ func searchEstates(c echo.Context) error {
 		c.Logger().Errorf("searchEstates DB execution error : %v", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
-	estates := []Estate{}
-	params = append(params, perPage, page*perPage)
-	err = db.Select(&estates, searchQuery+searchCondition+limitOffset, params...)
+	buf := []Estate{}
+	err = db.Select(&buf, searchQuery+searchCondition, params...)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return c.JSON(http.StatusOK, EstateSearchResponse{Count: 0, Estates: []Estate{}})
 		}
 		c.Logger().Errorf("searchEstates DB execution error : %v", err)
 		return c.NoContent(http.StatusInternalServerError)
+	}
+
+	sort.SliceStable(buf, func(i, j int) bool {
+		if buf[i].Popularity == buf[j].Popularity {
+			return buf[i].ID < buf[j].ID
+		}
+		return buf[i].Popularity > buf[j].Popularity
+	})
+	estates := make([]Estate, perPage)
+	for i, j := 0, page*perPage; i < perPage; i++ {
+		estates[i] = buf[j]
 	}
 
 	res.Estates = estates
