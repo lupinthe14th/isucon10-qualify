@@ -801,9 +801,17 @@ func searchEstates(c echo.Context) error {
 		}
 		return buf[i].Popularity > buf[j].Popularity
 	})
-	estates := make([]Estate, perPage)
-	for i, j := 0, page*perPage; i < perPage; i, j = i+1, j+1 {
-		estates[i] = buf[j]
+	estates := []Estate{}
+	start := page * perPage
+	if start != 0 {
+		start--
+	}
+	l := len(buf)
+	for i, j := 0, start; i < perPage; i, j = i+1, j+1 {
+		if j >= l {
+			break
+		}
+		estates = append(estates, buf[j])
 	}
 
 	res.Estates = estates
