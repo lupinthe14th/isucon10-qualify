@@ -802,7 +802,7 @@ func searchEstates(c echo.Context) error {
 		return buf[i].Popularity > buf[j].Popularity
 	})
 	estates := make([]Estate, perPage)
-	for i, j := 0, page*perPage; i < perPage; i++ {
+	for i, j := 0, page*perPage; i < perPage; i, j = i+1, j+1 {
 		estates[i] = buf[j]
 	}
 
